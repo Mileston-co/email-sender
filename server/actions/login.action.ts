@@ -69,6 +69,8 @@ export async function verifyUserTokenAndLogin(code: string) {
         const sessionData = {
           userId: existingUser._id.toString(),
           email: existingUser.email,
+          firstName: existingUser.firstName,
+          lastName: existingUser.lastName,
           isLoggedIn: true,
         };
 

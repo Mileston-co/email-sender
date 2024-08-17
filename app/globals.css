@@ -30,3 +30,13 @@ body {
   background-size: cover;
   background-attachment: fixed;
 }
+
+.custom-quill-editor .ql-container {
+    min-height: 250px;
+    border: none;
+}
+
+.custom-quill-editor .ql-container {
+  border: none; /* Removes the border */
+}
+
