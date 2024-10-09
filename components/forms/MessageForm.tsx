@@ -3,7 +3,7 @@
 import { useState } from "react";
 import "react-quill/dist/quill.snow.css";
 import { NoOutlineButtonBig } from "../shared/buttons";
-import { useSession } from "../shared/sesstion";
+import { useSession } from "../shared/session";
 import sendEmail from "@/server/actions/email.action";
 import { StatusMessage } from "../shared/shared";
 import dynamic from 'next/dynamic';

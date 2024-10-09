@@ -8,11 +8,26 @@ const UserSchema = new Schema({
   },
   firstName: {
     type: String,
-    // required: [true, 'Firstname is required!'],
   },
   lastName: {
     type: String,
-    // required: [true, 'Lastname is required!'],
+  },
+  gmailToken: {
+    access_token: {
+      type: String,
+    },
+    refresh_token: {
+      type: String,
+    },
+    scope: {
+      type: String,
+    },
+    token_type: {
+      type: String,
+    },
+    expiry_date: {
+      type: Number, // Store expiration date of the token
+    },
   },
 });
 

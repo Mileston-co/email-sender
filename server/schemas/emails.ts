@@ -3,8 +3,7 @@ import mongoose, { Schema, model, models } from "mongoose";
 const EmailSchema = new Schema({
   message: {
     type: String,
-    unique: [true, "Email already exists!"],
-    required: [true, "Email is required!"],
+    required: [true, "Messages are required!"],
   },
   user: {
     type: mongoose.Types.ObjectId,
