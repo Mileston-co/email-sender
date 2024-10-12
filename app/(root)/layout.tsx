@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "../globals.css";
 
 export const metadata: Metadata = {
-  title: "Mileston Email Sender",
-  description: "Send Emails with Mileston.co",
+  title: "Mileston Email",
+  description: "Send , Receive and Manage Emails with Mileston.co",
 };
 
 export default function RootLayout({

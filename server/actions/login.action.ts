@@ -3,6 +3,7 @@
 import connectToDB from "../model/database";
 import User from "../schemas/user";
 import VerificationToken from "../schemas/verificationToken";
+import { fetchAndSaveGmailThreads } from "./email.action";
 import { generateVerificationCode, saveSession, sendVerificationRequest } from "./utils";
 
 
@@ -71,9 +72,11 @@ export async function verifyUserTokenAndLogin(code: string) {
           email: existingUser.email,
           firstName: existingUser.firstName,
           lastName: existingUser.lastName,
+          isGmailConnected: existingUser.gmailToken.access_token ? true : false,
           isLoggedIn: true,
         };
 
+        // Save session
         await saveSession(sessionData);
 
         await VerificationToken.findOneAndDelete({ token: code });

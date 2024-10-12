@@ -45,6 +45,10 @@ export async function GET(req: Request) {
     return NextResponse.json({ error: 'User not found' });
   }
 
+  session.isGmailConnected = true;
+
+  await session.save();
+
   return NextResponse.redirect(new URL("/", req.url));
 }
 

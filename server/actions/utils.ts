@@ -1,6 +1,7 @@
 import { Resend } from "resend";
 import { SessionData } from "../session/session";
 import getSession from "../session/getSession.action";
+import crypto from "crypto";
 
 interface SendVerificationRequestParams {
   code: string;
@@ -40,6 +41,7 @@ export async function saveSession(session: SessionData): Promise<void> {
   existingSession.email = session.email;
   existingSession.firstName = session.firstName;
   existingSession.lastName = session.lastName;
+  existingSession.isGmailConnected = session.isGmailConnected;
   existingSession.isLoggedIn = session.isLoggedIn;
 
   // Save the session
@@ -63,4 +65,50 @@ export function generateVerificationCode(): {
   const expiresIn = new Date(generatedAt.getTime() + 5 * 60 * 1000);
 
   return { code, generatedAt, expiresIn };
+}
+
+// Define constants for PBKDF2
+const SALT_LENGTH = 16; // Salt length in bytes
+const KEY_LENGTH = 32; // AES-256 requires a 32-byte key
+const ITERATIONS = 100000; // Number of iterations for PBKDF2
+const DIGEST = 'sha256'; // Hash algorithm for PBKDF2
+
+// Function to derive an encryption key using PBKDF2
+function deriveKey(password: string, salt: string) {
+  return crypto.pbkdf2Sync(password, salt, ITERATIONS, KEY_LENGTH, DIGEST);
+}
+
+// Function to generate a random salt
+function generateSalt() {
+  return crypto.randomBytes(SALT_LENGTH).toString('hex');
+}
+
+// Encryption function
+export function encrypt(text: string, password: string) {
+  const salt = generateSalt(); // Generate a salt for PBKDF2
+  const iv = crypto.randomBytes(16); // Initialization vector for AES
+  const key = deriveKey(password, salt); // Derive the key using PBKDF2
+
+  const cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
+  let encrypted = cipher.update(text, 'utf-8', 'hex');
+  encrypted += cipher.final('hex');
+
+  return {
+    iv: iv.toString('hex'),
+    salt, // Save salt for decryption
+    encryptedData: encrypted,
+  };
+}
+
+// Decryption function
+export function decrypt(encryptedData: string, ivHex: string, salt: string, password: string) {
+  const ivBuffer = Buffer.from(ivHex, 'hex');
+  const key = deriveKey(password, salt); // Derive the key using the same salt
+
+  const decipher = crypto.createDecipheriv('aes-256-cbc', key
+  , ivBuffer);
+  let decrypted = decipher.update(encryptedData, 'hex', 'utf-8');
+  decrypted += decipher.final('utf-8');
+
+  return decrypted;
 }

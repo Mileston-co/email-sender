@@ -4,7 +4,7 @@ import { Card } from "@/components/shared/Cards";
 
 export const metadata: Metadata = {
   title: "Auth",
-  description: "Log in to your Mileston Email Sender",
+  description: "Log in to your Mileston Email",
 };
 
 export default function RootLayout({

@@ -18,13 +18,18 @@ type FormData = {
   subject: string;
 };
 
-export default function MessageForm() {
+interface Props {
+  subject?: string;
+  to?: string;
+}
+
+export default function MessageForm({ subject, to }: Props) {
   const [formData, setFormData] = useState<FormData>({
     email: "",
     name: "",
     message: "",
-    to: "",
-    subject: "",
+    to: to || "",
+    subject: subject || "",
   });
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});

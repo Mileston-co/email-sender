@@ -1,4 +1,4 @@
-import { Schema, model, models } from 'mongoose';
+import mongoose, { Schema, model, models } from 'mongoose';
 
 const MessageSchema = new Schema({
   sender: {
@@ -9,13 +9,15 @@ const MessageSchema = new Schema({
     type: String, // The message content (body of the email)
     required: true,
   },
+  snippet: {
+    type: String, // The message content (snippet of the email)
+  },
   timestamp: {
     type: Date,
     default: Date.now, // Automatically sets the time the message was sent or received
   },
   messageId: {
     type: String, // Gmail message ID for easier tracking and retrieval
-    unique: true,
     required: true,
   },
 });
@@ -31,6 +33,11 @@ const ThreadSchema = new Schema({
     type: String, // Subject of the thread (optional)
   },
   messages: [MessageSchema], // Array of messages
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
   lastUpdated: {
     type: Date,
     default: Date.now, // Updates whenever a new message is added

@@ -20,7 +20,7 @@ export default function VerifyPage() {
       if (result.message !== undefined) {
 
         if (result.message === true) {
-            setVerifyResult("You're verified");
+            setVerifyResult("You're verified. Please wait. Fetching Emails...");
           window.location.href = "/";
         } else {
           setVerifyResult(result.message as string);
@@ -52,7 +52,6 @@ export default function VerifyPage() {
   const handleSubmit = () => {
     if (codes.every((code) => code !== "")) {
       const fullCode = codes.join("");
-      console.log("Submitted code:", fullCode);
       handleVerify(fullCode);
     } else {
       setVerifyResult("Please fill in all code boxes.");
