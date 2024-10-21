@@ -112,3 +112,25 @@ export function decrypt(encryptedData: string, ivHex: string, salt: string, pass
 
   return decrypted;
 }
+
+
+export function getBaseUrl() {
+  if (typeof window !== 'undefined') {
+    // Client-side: Use window.location.origin when in the browser
+    return window.location.origin;
+  }
+
+  // Server-side: Use environment variables for production, preview, or localhost
+  if (process.env.NEXT_PUBLIC_VERCEL_ENV === 'production') {
+    // If you're in production on Vercel
+    return `https://sendemail.mileston.co`;
+  }
+
+  if (process.env.NEXT_PUBLIC_VERCEL_ENV === 'preview') {
+    // If you're in preview on Vercel
+    return `https://${process.env.VERCEL_URL}`;
+  }
+
+  // For local development (default)
+  return 'http://localhost:3000';
+}

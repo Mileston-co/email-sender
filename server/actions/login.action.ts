@@ -3,9 +3,7 @@
 import connectToDB from "../model/database";
 import User from "../schemas/user";
 import VerificationToken from "../schemas/verificationToken";
-import { fetchAndSaveGmailThreads } from "./email.action";
 import { generateVerificationCode, saveSession, sendVerificationRequest } from "./utils";
-
 
 export async function signIn(email: string) {
   console.log("I want to send emails");

@@ -1,3 +1,4 @@
+import { getBaseUrl } from '@/server/actions/utils';
 import connectToDB from '@/server/model/database';
 import User from '@/server/schemas/user';
 import getSession from '@/server/session/getSession.action';
@@ -11,11 +12,11 @@ export async function GET(req: Request) {
   if (!code) {
     return NextResponse.json({ error: 'No code provided' });
   }
-
+  const url = getBaseUrl();
   const oauth2Client = new google.auth.OAuth2(
     process.env.GOOGLE_CLIENT_ID,
     process.env.GOOGLE_CLIENT_SECRET,
-    `${process.env.NEXT_PUBLIC_APP_URL}/api/google-auth/callback`
+    `${url}/api/google-auth/callback`
   );
 
   const { tokens } = await oauth2Client.getToken(code);

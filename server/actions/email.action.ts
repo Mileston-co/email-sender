@@ -10,6 +10,7 @@ import { format } from 'date-fns';
 import User from '@/server/schemas/user';
 import Thread from "../schemas/threads";
 import { EmailSnippetProps, FullEmailCompProps } from "@/components/shared/shared";
+import { getBaseUrl } from "./utils";
 
 
 interface EmailParams {
@@ -119,11 +120,11 @@ export async function getOAuthClient(userId: string) {
     if (!user || !user.gmailToken) {
         throw new Error('No Gmail token found');
     }
-
+    const url = getBaseUrl();
     const oauth2Client = new google.auth.OAuth2(
         process.env.GOOGLE_CLIENT_ID,
         process.env.GOOGLE_CLIENT_SECRET,
-        `${process.env.NEXT_PUBLIC_APP_URL}/api/auth/gmail/callback`
+        `${url}/api/auth/gmail/callback`
     );
 
     // Set current credentials
