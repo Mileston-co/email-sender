@@ -4,6 +4,12 @@ import { getBaseUrl } from '@/server/actions/utils';
 
 export async function GET() {
   const url = getBaseUrl();
+  console.log(process.env.GOOGLE_CLIENT_ID);
+
+  if(!process.env.GOOGLE_CLEINT_ID) {
+    console.log(process.env.GOOGLE_CLIENT_ID, url);
+    throw new Error("Google client Id not provided")
+  }
   const oauth2Client = new google.auth.OAuth2(
     process.env.GOOGLE_CLIENT_ID,
     process.env.GOOGLE_CLIENT_SECRET,
