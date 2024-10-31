@@ -18,5 +18,8 @@ export async function GET() {
     ],
   });
 
+
+  console.log(authUrl)
+
   return NextResponse.redirect(authUrl);
 }
