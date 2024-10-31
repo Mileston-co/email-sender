@@ -8,13 +8,15 @@ import { Card2 } from "../shared/Cards";
 import { useSession } from "../shared/session";
 import Link from "next/link";
 import { EmailSnippetComp, EmailSnippetProps } from "../shared/shared";
-import {fetchEmailSnippets } from "@/server/actions/email.action";
+import { fetchEmailSnippets, generateRedirectUrl } from "@/server/actions/email.action";
+import { useRouter } from "next/navigation";
 
 export default function HomePage() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [emailSnippets, setEmailSnippets] = useState<EmailSnippetProps[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
+    const router = useRouter();
 
     const session = useSession();
 
@@ -25,6 +27,11 @@ export default function HomePage() {
     const handleCloseModal = () => {
         setIsModalOpen(false);
     };
+
+    const handleGoogleConnect = async () => {
+        const url = await generateRedirectUrl();
+        router.push(url);
+    }
 
     useEffect(() => {
         const fetchSnippets = async () => {
@@ -67,9 +74,7 @@ export default function HomePage() {
                     {session?.isGmailConnected ? (
                         <NoOutlineButtonBig name="Email Connected" type="button" disabled />
                     ) : (
-                        <Link href={"/api/google-auth/redirect-uri"}>
-                            <NoOutlineButtonBig name="Connect Gmail" type="button" />
-                        </Link>
+                        <NoOutlineButtonBig name="Connect Gmail" type="button" onclick={handleGoogleConnect} />
                     )}
                 </div>
             </div>
