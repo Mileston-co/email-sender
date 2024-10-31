@@ -391,7 +391,11 @@ export async function fetchThreadById(threadId: string): Promise<FullEmailCompPr
 export async function generateRedirectUrl() {
 
     const url = getBaseUrl();
-    
+
+    console.log("Client ID:", process.env.GOOGLE_CLIENT_ID);
+    console.log("Client Secret:", process.env.GOOGLE_CLIENT_SECRET);
+
+
     const oauth2Client = new google.auth.OAuth2(
         process.env.GOOGLE_CLIENT_ID,
         process.env.GOOGLE_CLIENT_SECRET,
@@ -405,6 +409,8 @@ export async function generateRedirectUrl() {
             'https://www.googleapis.com/auth/userinfo.email',
         ],
     });
+
+    console.log(authUrl)
 
     return authUrl;
 }
